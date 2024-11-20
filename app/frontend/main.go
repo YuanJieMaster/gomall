@@ -19,6 +19,8 @@ import (
 	"github.com/hertz-contrib/logger/accesslog"
 	hertzlogrus "github.com/hertz-contrib/logger/logrus"
 	"github.com/hertz-contrib/pprof"
+	"github.com/hertz-contrib/sessions"
+	"github.com/hertz-contrib/sessions/redis"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
@@ -48,6 +50,10 @@ func main() {
 }
 
 func registerMiddleware(h *server.Hertz) {
+	// sessions
+	store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
+	h.Use(sessions.New("cloudwego-shop", store))
+
 	// log
 	logger := hertzlogrus.NewLogger()
 	hlog.SetLogger(logger)
