@@ -5,6 +5,7 @@ package frontend.home;
 option go_package = "frontend/home";
 
 import "api.proto";
+import "frontend/common.proto";
 
 message Empty {}
 
