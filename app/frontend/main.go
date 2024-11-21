@@ -4,8 +4,6 @@ package main
 
 import (
 	"context"
-	"github.com/joho/godotenv"
-	"os"
 	"time"
 
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
@@ -28,7 +26,6 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load()
 	// init dal
 	// dal.Init()
 	address := conf.GetConf().Hertz.Address
@@ -53,9 +50,8 @@ func main() {
 }
 
 func registerMiddleware(h *server.Hertz) {
-
 	// sessions
-	store, _ := redis.NewStore(10, "tcp", conf.GetConf().Redis.Address, "", []byte(os.Getenv("SECRET_SECRET")))
+	store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
 	h.Use(sessions.New("cloudwego-shop", store))
 
 	// log
