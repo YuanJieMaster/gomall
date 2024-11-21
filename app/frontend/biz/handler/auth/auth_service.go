@@ -27,6 +27,6 @@ func Login(ctx context.Context, c *app.RequestContext) {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
-
-	utils.SendSuccessResponse(ctx, c, consts.StatusOK, "done!")
+	c.Redirect(consts.StatusOK, []byte("/"))
+	//utils.SendSuccessResponse(ctx, c, consts.StatusOK, "done!")
 }

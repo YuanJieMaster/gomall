@@ -2,10 +2,9 @@ package home
 
 import (
 	"context"
-	"github.com/cloudwego/biz-demo/gomall/app/frontend/hertz_gen/frontend/common"
-
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/service"
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/utils"
+	"github.com/cloudwego/biz-demo/gomall/app/frontend/hertz_gen/frontend/common"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
 )
@@ -22,13 +21,13 @@ func Home(ctx context.Context, c *app.RequestContext) {
 	}
 
 	//resp := &home.Empty{}
-	_, err = service.NewHomeService(ctx, c).Run(&req)
+	resp, err := service.NewHomeService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
 
-	c.HTML(consts.StatusOK, "home", "done!")
+	c.HTML(consts.StatusOK, "home", resp)
 
 	//utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }
