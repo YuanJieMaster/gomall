@@ -30,7 +30,7 @@ func Home(ctx context.Context, c *app.RequestContext) {
 	resp["user_id"] = 22
 
 	//c.HTML(consts.StatusOK, "home", "done!")
-	c.HTML(consts.StatusOK, "home", resp)
+	c.HTML(consts.StatusOK, "home", utils.WarpResponse(ctx, c, resp))
 
 	//utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }
