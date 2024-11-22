@@ -22,13 +22,15 @@ func Home(ctx context.Context, c *app.RequestContext) {
 	}
 
 	//resp := &home.Empty{}
-	_, err = service.NewHomeService(ctx, c).Run(&req)
+	resp, err := service.NewHomeService(ctx, c).Run(&req)
 	if err != nil {
 		utils.SendErrResponse(ctx, c, consts.StatusOK, err)
 		return
 	}
+	resp["user_id"] = 22
 
-	c.HTML(consts.StatusOK, "home", "done!")
+	//c.HTML(consts.StatusOK, "home", "done!")
+	c.HTML(consts.StatusOK, "home", resp)
 
 	//utils.SendSuccessResponse(ctx, c, consts.StatusOK, resp)
 }

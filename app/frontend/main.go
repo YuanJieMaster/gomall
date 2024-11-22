@@ -4,10 +4,11 @@ package main
 
 import (
 	"context"
+	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
+	"github.com/joho/godotenv"
 	"os"
 	"time"
 
-	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/conf"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/app/middlewares/server/recovery"
@@ -27,6 +28,7 @@ import (
 )
 
 func main() {
+	_ = godotenv.Load()
 	// init dal
 	// dal.Init()
 	address := conf.GetConf().Hertz.Address
@@ -39,12 +41,16 @@ func main() {
 		ctx.JSON(consts.StatusOK, utils.H{"ping": "pong"})
 	})
 
-	router.GeneratedRegister(h)
 	h.LoadHTMLGlob("template/*")
 	h.Static("/static", "./")
+	router.GeneratedRegister(h)
 
 	h.GET("/sign-in", func(c context.Context, ctx *app.RequestContext) {
 		ctx.HTML(consts.StatusOK, "sign-in", utils.H{"Title": "Sign In"})
+	})
+
+	h.GET("/sign-up", func(c context.Context, ctx *app.RequestContext) {
+		ctx.HTML(consts.StatusOK, "sign-up", utils.H{"Title": "Sign Up"})
 	})
 
 	h.Spin()
