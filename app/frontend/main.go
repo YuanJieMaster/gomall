@@ -4,6 +4,7 @@ package main
 
 import (
 	"context"
+	"os"
 	"time"
 
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
@@ -51,7 +52,7 @@ func main() {
 
 func registerMiddleware(h *server.Hertz) {
 	// sessions
-	store, _ := redis.NewStore(10, "tcp", "localhost:6379", "", []byte("secret"))
+	store, _ := redis.NewStore(10, "tcp", conf.GetConf().Redis.Address, "", []byte(os.Getenv("SESSION_SECRET")))
 	h.Use(sessions.New("cloudwego-shop", store))
 
 	// log
