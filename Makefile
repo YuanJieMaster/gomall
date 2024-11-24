@@ -14,3 +14,10 @@ demo-link-fix:
 gen-frontend:
 	@cd app/frontend && cwgo server --type HTTP --I ../../idl --service frontend --module github.com/cloudwego/biz-demo/gomall/app/frontend --idl ../../idl/frontend/auth_page.proto
 
+.PHONY: gen-server
+gen-server:
+	@cd app/user && cwgo server --type RPC --I ../../idl --service user --module github.com/cloudwego/biz-demo/gomall/app/user --idl ../../idl/user.proto --pass "-use github.com/cloudwego/biz-demo/gomall/rpc_gen/kitex_gen"
+
+.PHONY: gen-client
+gen-client:
+	@cd rpc_gen && cwgo client --type RPC --I ../idl --service user --module github.com/cloudwego/biz-demo/gomall/app/rpc_gen --idl ../idl/user.proto

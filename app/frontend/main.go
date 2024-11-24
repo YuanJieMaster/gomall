@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
+	"github.com/cloudwego/biz-demo/gomall/app/frontend/middleware"
 	"github.com/joho/godotenv"
 	"os"
 	"time"
@@ -45,8 +46,16 @@ func main() {
 	h.Static("/static", "./")
 	router.GeneratedRegister(h)
 
+	h.GET("/about", middleware.Auth(), func(c context.Context, ctx *app.RequestContext) {
+		ctx.HTML(consts.StatusOK, "about", utils.H{"Title": "About"})
+	})
+
 	h.GET("/sign-in", func(c context.Context, ctx *app.RequestContext) {
-		ctx.HTML(consts.StatusOK, "sign-in", utils.H{"Title": "Sign In"})
+		data := utils.H{
+			"Title": "Sign In",
+			"Next":  ctx.Query("next"),
+		}
+		ctx.HTML(consts.StatusOK, "sign-in", data)
 	})
 
 	h.GET("/sign-up", func(c context.Context, ctx *app.RequestContext) {
@@ -99,4 +108,6 @@ func registerMiddleware(h *server.Hertz) {
 
 	// cores
 	h.Use(cors.Default())
+
+	middleware.Register(h)
 }
