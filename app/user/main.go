@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/cloudwego/biz-demo/gomall/app/user/biz/dal"
+	"github.com/joho/godotenv"
 	"net"
 	"time"
 
@@ -16,11 +18,17 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		klog.Error(err.Error())
+	}
+
+	dal.Init()
 	opts := kitexInit()
 
 	svr := userservice.NewServer(new(UserServiceImpl), opts...)
 
-	err := svr.Run()
+	err = svr.Run()
 	if err != nil {
 		klog.Error(err.Error())
 	}

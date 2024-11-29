@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/biz/router"
+	"github.com/cloudwego/biz-demo/gomall/app/frontend/infra/rpc"
 	"github.com/cloudwego/biz-demo/gomall/app/frontend/middleware"
 	"github.com/joho/godotenv"
 	"os"
@@ -32,6 +33,7 @@ func main() {
 	_ = godotenv.Load()
 	// init dal
 	// dal.Init()
+	rpc.Init()
 	address := conf.GetConf().Hertz.Address
 	h := server.New(server.WithHostPorts(address))
 
